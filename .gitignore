@@ -1,6 +1,9 @@
 # Editor Files
 .idea
 
+# Global
+.env
+
 # VueJS files
 .DS_Store
 node_modules/
