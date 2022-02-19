@@ -7,4 +7,6 @@ import (
 
 func Setup(app *fiber.App) {
 	app.Get("/", controllers.Index)
+
+	app.Post("/api/client", controllers.CreateClient)
 }
