@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"github.com/simpleittools/simplesystrack/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -18,6 +19,8 @@ func Conn() {
 
 	if err != nil {
 		panic("Could not connect to the DB")
+	} else {
+		fmt.Println("connected to MySQL")
 	}
 
 	DB = conn

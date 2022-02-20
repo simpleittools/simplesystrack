@@ -1,24 +1,26 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/simpleittools/simplesystrack/database"
 	"github.com/simpleittools/simplesystrack/models"
 )
 
-func CreateClient(c *fiber.Ctx) {
-	db := database.Conn
+func CreateClient(c *fiber.Ctx) error {
+	var data map[string]string
 
-	client := new(models.Client)
-	err := c.BodyParser(client)
+	err := c.BodyParser(&data)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return err
 	}
 
-	db.Create(&client)
+	client := models.Client{
+		ClientName:     data["client_name"],
+		ClientInitials: data["client_initials"],
+	}
 
-	c.JSON(client)
+	database.DB.Create(&client)
+
+	return c.JSON(client)
 
 }
