@@ -25,5 +25,5 @@ func Conn() {
 
 	DB = conn
 
-	conn.AutoMigrate(&models.Client{})
+	conn.AutoMigrate(&models.Client{}, &models.Project{})
 }
