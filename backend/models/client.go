@@ -6,7 +6,7 @@ import (
 )
 
 type Client struct {
-	ID             uint           `json:"id"`
+	ID             uint           `json:"id" gorm:"primaryKey"`
 	ClientName     string         `json:"client_name"`
 	ClientInitials string         `json:"client_initials"`
 	CreatedAt      time.Time      `json:"created_at"`

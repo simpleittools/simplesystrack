@@ -6,7 +6,7 @@ import (
 )
 
 type Project struct {
-	ID          uint           `json:"id"`
+	ID          uint           `json:"id" gorm:"primaryKey"`
 	ProjectName string         `json:"project_name"`
 	ProjectCode string         `json:"project_code"`
 	ClientID    int            `json:"client_id"`
@@ -14,4 +14,5 @@ type Project struct {
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `json:"deleted_at"`
+	Milestones  []Milestone
 }

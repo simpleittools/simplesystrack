@@ -1,3 +1,5 @@
+# Copy this file with the name .env to create you .env file
 GOSERVERPORT=:3000
-
-DSN=user:password@tcp(127.0.0.1:3306)/database?charset=utf8mb4&parseTime=True&loc=Local
+FRONTEND=YOURFRONTENDADRESS
+DATABASE=SELECTDATABASE(MYSQL,PGSQL)
+MYSQLDSN=user:password@tcp(127.0.0.1:3306)/database?charset=utf8mb4&parseTime=True&loc=Local

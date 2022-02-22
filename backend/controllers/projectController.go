@@ -10,7 +10,7 @@ import (
 func ProjectIndex(c *fiber.Ctx) error {
 	var projects []models.Project
 
-	database.DB.Joins("Client").Find(&projects)
+	database.DB.Joins("Client").Preload("Milestones").Find(&projects)
 
 	return c.JSON(projects)
 }

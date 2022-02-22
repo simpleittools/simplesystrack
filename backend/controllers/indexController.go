@@ -1,7 +1,11 @@
 package controllers
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+	"os"
+)
 
 func Index(c *fiber.Ctx) error {
-	return c.SendString("from the controller")
+	frontend := os.Getenv("FRONTEND")
+	return c.Redirect(frontend)
 }

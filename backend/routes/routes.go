@@ -16,8 +16,8 @@ func Setup(app *fiber.App) {
 	client.Get("/:client_initials", controllers.ClientShow)
 	//client.Get("/:clientInitials/edit", controllers.ClientEdit)
 	client.Patch("/:client_initials", controllers.ClientUpdate)
-
 	client.Delete("/:client_initials", controllers.ClientDestroy)
+	// ToDo: frontend needs to also have ClientEdit and ClientNew
 
 	// Project Routes
 	project := app.Group("api/project")
@@ -26,5 +26,37 @@ func Setup(app *fiber.App) {
 	project.Get("/:project_code", controllers.ProjectShow)
 	project.Patch("/:project_code", controllers.ProjectUpdate)
 	project.Delete("/:project_code", controllers.ProjectDestroy)
+	// ToDo: frontend needs to also have ProjectEdit and ProjectNew
+
+	/*
+		ToDo:
+			Milestones -> need Model, Controller, Milestones belong to Projects but should return Tasks,
+			Project, PM, % complete (closedTasks/totalTasks), hours used, % to budget (hours used/total budget), Client
+	*/
+	// Milestones Routes
+	milestone := app.Group("api/milestone")
+	milestone.Group("/", controllers.MilestoneIndex)
+
+	/*
+		ToDo:
+			Tasks -> need Model, Controller,
+			Tasks belong to milestones but should return Milestone, Project, PM, Assigned to (user), Client
+	*/
+
+	/*
+		ToDo:
+			Users -> Model, controller, authentication, many->many roles, hasMany Tasks
+	*/
+
+	/*
+		ToDo:
+			Roles -> Model, controller, many->many users
+	*/
+
+	/*
+		Todo:
+			Permissions -> Model, controller, many->many roles
+			FrontEnd -> Will needs a permissions viewer
+	*/
 
 }
