@@ -35,7 +35,8 @@ func Setup(app *fiber.App) {
 	*/
 	// Milestones Routes
 	milestone := app.Group("api/milestone")
-	milestone.Group("/", controllers.MilestoneIndex)
+	milestone.Get("/", controllers.MilestoneIndex)
+	milestone.Post("/", controllers.MilestoneCreate)
 
 	/*
 		ToDo:
