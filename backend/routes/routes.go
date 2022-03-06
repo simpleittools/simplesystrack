@@ -37,6 +37,7 @@ func Setup(app *fiber.App) {
 	milestone := app.Group("api/milestone")
 	milestone.Get("/", controllers.MilestoneIndex)
 	milestone.Post("/", controllers.MilestoneCreate)
+	milestone.Get("/:milestone_code", controllers.MilestoneShow)
 
 	/*
 		ToDo:
