@@ -3,3 +3,4 @@ GOSERVERPORT=:3000
 FRONTEND=YOURFRONTENDADRESS
 DATABASE=SELECTDATABASE(MYSQL,PGSQL)
 MYSQLDSN=user:password@tcp(127.0.0.1:3306)/database?charset=utf8mb4&parseTime=True&loc=Local
+PGSQLDSN=host=SERVER user=USERNAME password=PASSWORD dbname=DATABASE port=5432 sslmode=disable TimeZone=TIMEZONE

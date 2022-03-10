@@ -43,11 +43,61 @@ func MilestoneCreate(c *fiber.Ctx) error {
 	return c.JSON(milestone)
 }
 
-// ProjectShow will return the results of a selected client
+// MilestoneShow will return the results of a selected Milestone and include the Project
 func MilestoneShow(c *fiber.Ctx) error {
 	milestoneCode := c.Params("milestone_code")
 	milestone := models.Milestone{}
 	database.DB.Joins("Project").Find(&milestone, "milestone_code", milestoneCode)
 
 	return c.JSON(milestone)
+}
+
+// MilestoneUpdate will PATCH the Milestone details after edited by the user
+func MilestoneUpdate(c *fiber.Ctx) error {
+	MilestoneCode := c.Params("milestone_code")
+
+	var data models.Milestone
+
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return err
+	}
+
+	milestone := &models.Milestone{
+		MilestoneName:    data.MilestoneName,
+		MilestoneCode:    data.MilestoneCode,
+		MilestoneStarted: data.MilestoneStarted,
+		MilestonePrereq:  data.MilestonePrereq,
+		MilestoneStart:   data.MilestoneStart,
+		MilestoneEnd:     data.MilestoneEnd,
+		MilestoneDetails: data.MilestoneDetails,
+		ProjectID:        data.ProjectID,
+	}
+
+	database.DB.Model(&models.Milestone{}).Where("milestone_code = ?", MilestoneCode).Updates(map[string]interface{}{
+		"milestone_name":    milestone.MilestoneName,
+		"milestone_code":    milestone.MilestoneCode,
+		"milestone_started": milestone.MilestoneStarted,
+		"milestone_prereq":  milestone.MilestonePrereq,
+		"milestone_start":   milestone.MilestoneStart,
+		"milestone_end":     milestone.MilestoneEnd,
+		"milestone_details": milestone.MilestoneDetails,
+		"project_id":        milestone.ProjectID,
+	})
+
+	return c.JSON(fiber.Map{
+		"message": "success",
+	})
+}
+
+// MilestoneDestroy will remove the milestone from the database
+func MilestoneDestroy(c *fiber.Ctx) error {
+	MilestoneCode := c.Params("milestone_code")
+
+	database.DB.Where("milestone_code = ?", MilestoneCode).Delete(&models.Milestone{})
+
+	return c.JSON(fiber.Map{
+		"message": "Milestone Removed",
+	})
 }

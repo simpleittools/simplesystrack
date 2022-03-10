@@ -30,7 +30,7 @@ func Setup(app *fiber.App) {
 
 	/*
 		ToDo:
-			Milestones -> need Model, Controller, Milestones belong to Projects but should return Tasks,
+			Milestones -> should return Tasks,
 			Project, PM, % complete (closedTasks/totalTasks), hours used, % to budget (hours used/total budget), Client
 	*/
 	// Milestones Routes
@@ -38,6 +38,8 @@ func Setup(app *fiber.App) {
 	milestone.Get("/", controllers.MilestoneIndex)
 	milestone.Post("/", controllers.MilestoneCreate)
 	milestone.Get("/:milestone_code", controllers.MilestoneShow)
+	milestone.Patch("/:milestone_code", controllers.MilestoneUpdate)
+	milestone.Delete("/:milestone_code", controllers.MilestoneDestroy)
 
 	/*
 		ToDo:
@@ -47,7 +49,7 @@ func Setup(app *fiber.App) {
 
 	/*
 		ToDo:
-			Users -> Model, controller, authentication, many->many roles, hasMany Tasks
+			Users -> Model, controller, authentication, many->many roles, hasMany Tasks -> Temporary Role
 	*/
 
 	/*
