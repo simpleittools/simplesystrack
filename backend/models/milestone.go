@@ -9,7 +9,7 @@ import (
 type Milestone struct {
 	ID               uint           `json:"id" gorm:"primaryKey"`
 	MilestoneName    string         `json:"milestone_name"`
-	MilestoneCode    string         `json:"milestone_code"`
+	MilestoneCode    string         `json:"milestone_code" gorm:"unique"`
 	MilestoneStarted bool           `json:"milestone_started" gorm:"default = 0"`
 	MilestonePrereq  int            `json:"milestone_prereq" gorm:"nullable"`
 	MilestoneStart   datatypes.Date `json:"milestone_start" gorm:"nullable"`

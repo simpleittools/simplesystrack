@@ -20,6 +20,7 @@ func ClientCreate(c *fiber.Ctx) error {
 	var data map[string]string
 
 	err := c.BodyParser(&data)
+	// ToDo Error handling is not returning errors. Need to look into GORM error handling
 	if err != nil {
 		return err
 	}
