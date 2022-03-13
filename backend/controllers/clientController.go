@@ -10,7 +10,7 @@ import (
 func ClientIndex(c *fiber.Ctx) error {
 	var clients []models.Client
 
-	database.DB.Where("is_active = ?", "true").Find(&clients)
+	database.DB.Where("is_active = true").Find(&clients)
 	//database.DB.Preload(clause.Associations).Where("is_active = 1").Find(&clients)
 
 	return c.JSON(clients)
@@ -21,7 +21,7 @@ func ClientCreate(c *fiber.Ctx) error {
 	var body models.Client
 
 	err := c.BodyParser(&body)
-	// ToDo Error handling is not returning errors. Need to look into GORM error handling
+
 	if err != nil {
 		return err
 	}
@@ -37,18 +37,23 @@ func ClientCreate(c *fiber.Ctx) error {
 		Comments:       body.Comments,
 	}
 
-	database.DB.Create(&client)
+	// reassign err to collect any database entry errors
+	err = database.DB.Create(&client).Error
+	if err != nil {
+		return err
+	}
 
 	return c.JSON(client)
-
 }
 
 // ClientShow will return the results of a selected client
 func ClientShow(c *fiber.Ctx) error {
 	clientInitials := c.Params("client_initials")
 	client := models.Client{}
-	database.DB.Preload("Projects", "project_is_active=?", true).Find(&client, "client_initials", clientInitials)
-
+	err := database.DB.Preload("Projects", "project_is_active=?", true).Find(&client, "client_initials", clientInitials).Error
+	if err != nil {
+		return err
+	}
 	return c.JSON(client)
 }
 
@@ -56,26 +61,33 @@ func ClientShow(c *fiber.Ctx) error {
 func ClientUpdate(c *fiber.Ctx) error {
 	clientInitials := c.Params("client_initials")
 
-	var data map[string]string
+	//var data map[string]string
+	var data models.Client
 
 	err := c.BodyParser(&data)
 	if err != nil {
 		return err
 	}
 
-	client := models.Client{
-		ClientName:     data["client_name"],
-		ClientInitials: data["client_initials"],
+	client := &models.Client{
+		ClientName:     data.ClientName,
+		ClientInitials: data.ClientInitials,
+		ClientStreet:   data.ClientStreet,
+		ClientStreet2:  data.ClientStreet2,
+		ClientZip:      data.ClientZip,
+		ClientState:    data.ClientState,
+		IsActive:       data.IsActive,
+		Comments:       data.Comments,
 	}
 
-	database.DB.Model(&models.Client{}).Where("client_initials = ?", clientInitials).Updates(map[string]interface{}{
-		"client_name":     client.ClientName,
-		"client_initials": client.ClientInitials,
-	})
+	// reassign err to the database reference to collect any update/input errors
+	err = database.DB.Model(&data).Where("client_initials = ?", clientInitials).Updates(&client).Error
 
-	return c.JSON(fiber.Map{
-		"message": "success",
-	})
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(client)
 }
 
 // ClientDestroy will remove the client from the database
