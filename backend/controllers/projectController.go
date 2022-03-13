@@ -27,9 +27,14 @@ func ProjectCreate(c *fiber.Ctx) error {
 	}
 
 	project := &models.Project{
-		ProjectName: body.ProjectName,
-		ProjectCode: body.ProjectCode,
-		ClientID:    body.ClientID,
+		ProjectName:        body.ProjectName,
+		ProjectCode:        body.ProjectCode,
+		ClientID:           body.ClientID,
+		ProjectDescription: body.ProjectDescription,
+		ProjectBudgetHrs:   body.ProjectBudgetHrs,
+		ProjectBudget:      body.ProjectBudget,
+		ProjectIsActive:    body.ProjectIsActive,
+		ProjectComments:    body.ProjectComments,
 	}
 
 	database.DB.Create(&project)
