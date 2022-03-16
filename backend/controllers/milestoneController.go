@@ -47,7 +47,7 @@ func MilestoneCreate(c *fiber.Ctx) error {
 func MilestoneShow(c *fiber.Ctx) error {
 	milestoneCode := c.Params("milestone_code")
 	milestone := models.Milestone{}
-	database.DB.Joins("Project").Find(&milestone, "milestone_code", milestoneCode)
+	database.DB.Preload("Tasks").Joins("Project").Find(&milestone, "milestone_code", milestoneCode)
 
 	return c.JSON(milestone)
 }

@@ -46,7 +46,7 @@ func ProjectCreate(c *fiber.Ctx) error {
 func ProjectShow(c *fiber.Ctx) error {
 	ProjectCode := c.Params("project_code")
 	project := models.Project{}
-	database.DB.Joins("Client").Find(&project, "project_code", ProjectCode)
+	database.DB.Preload("Milestones", "milestone_is_active=?", true).Joins("Client").Find(&project, "project_code", ProjectCode)
 
 	return c.JSON(project)
 }

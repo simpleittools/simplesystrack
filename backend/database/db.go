@@ -28,7 +28,7 @@ func Conn() {
 
 		DB = conn
 
-		conn.AutoMigrate(&models.Client{}, &models.Project{}, &models.Milestone{})
+		conn.AutoMigrate(&models.Client{}, &models.Project{}, &models.Milestone{}, &models.Task{})
 
 	} else if os.Getenv("DATABASE") == "PGSQL" {
 		dsn := os.Getenv("PGSQLDSN")
@@ -42,7 +42,7 @@ func Conn() {
 
 		DB = conn
 
-		conn.AutoMigrate(&models.Client{}, &models.Project{}, &models.Milestone{})
+		conn.AutoMigrate(&models.Client{}, &models.Project{}, &models.Milestone{}, &models.Task{})
 	} else {
 		log.Fatal("Database Type not supported")
 	}

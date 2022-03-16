@@ -94,7 +94,10 @@ func ClientUpdate(c *fiber.Ctx) error {
 func ClientDestroy(c *fiber.Ctx) error {
 	clientInitials := c.Params("client_initials")
 
-	database.DB.Where("client_initials = ?", clientInitials).Delete(&models.Client{})
+	err := database.DB.Where("client_initials = ?", clientInitials).Delete(&models.Client{}).Error
+	if err != nil {
+		return err
+	}
 
 	return c.JSON(fiber.Map{
 		"message": "Client Removed",

@@ -47,6 +47,14 @@ func Setup(app *fiber.App) {
 			Tasks belong to milestones but should return Milestone, Project, PM, Assigned to (user), Client
 	*/
 
+	// Task Routes
+	task := app.Group("api/task")
+	task.Get("/", controllers.TaskIndex)
+	task.Post("/", controllers.TaskCreate)
+	task.Get("/:milestone_code", controllers.TaskShow)
+	task.Patch("/:milestone_code", controllers.TaskUpdate)
+	task.Delete("/:milestone_code", controllers.TaskDestroy)
+
 	/*
 		ToDo:
 			Users -> Model, controller, authentication, many->many roles, hasMany Tasks -> Temporary Role
